@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aress Family — Заявка на тест</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 30px 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: #fff;
+        }
+
+        .title {
+            margin-bottom: 10px;
+            font-size: 34px;
+        }
+
+        .subtitle {
+            color: #999;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .form {
+            background: #191919;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .field {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: bold;
+        }
+
+        .hint {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-top: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #101010;
+            color: #fff;
+            padding: 13px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #777;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        details {
+            margin-top: 10px;
+            background: #111;
+            border: 1px solid #2c2c2c;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        summary {
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        details p {
+            margin-top: 12px;
+            color: #999;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .warning {
+            display: none;
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #302b18;
+            border: 1px solid #5a512d;
+            color: #e6d78c;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .submit {
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fff;
+            color: #111;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            opacity: 0.9;
+        }
+
+        .submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status {
+            display: none;
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .success {
+            background: #18301f;
+            border: 1px solid #315c3c;
+            color: #9ee0ad;
+        }
+
+        .error {
+            background: #301919;
+            border: 1px solid #5c3030;
+            color: #ffaaaa;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a class="back" href="index.html">← Вернуться на главную</a>
+
+    <h1 class="title">01 — Заявка</h1>
+
+    <p class="subtitle">
+        Заполните заявку на получение доступа к тестированию
+        знаний и опыта в администрации Aress Family.
+    </p>
+
+    <form class="form" id="testApplicationForm">
+
+        <!-- Discord ID -->
+        <div class="field">
+            <label for="discordId">Discord ID</label>
+
+            <input
+                type="text"
+                id="discordId"
+                placeholder="Например: 123456789012345678"
+                inputmode="numeric"
+                autocomplete="off"
+                required
+            >
+
+            <div class="hint">
+                Укажите именно Discord ID, а не никнейм.
+            </div>
+
+            <details>
+                <summary>Не знаете, где найти Discord ID?</summary>
+
+                <p>
+                    <strong>На телефоне:</strong><br>
+                    Discord → ваш аватар → Настройки → Расширенные
+                    → включите «Режим разработчика».
+                    После этого откройте свой профиль и выберите
+                    «Копировать ID пользователя».
+                </p>
+
+                <p>
+                    <strong>На ПК:</strong><br>
+                    Discord → Настройки пользователя → Расширенные
+                    → включите «Режим разработчика».
+                    Затем нажмите на свой аватар или имя и выберите
+                    «Копировать ID пользователя».
+                </p>
+
+                <p>
+                    Discord ID — это длинная последовательность цифр.
+                </p>
+            </details>
+        </div>
+
+        <!-- Nickname -->
+        <div class="field">
+            <label for="nickname">Текущий никнейм</label>
+
+            <input
+                type="text"
+                id="nickname"
+                placeholder="Ваш текущий никнейм"
+                required
+            >
+        </div>
+
+        <!-- Position -->
+        <div class="field">
+            <label for="position">Текущая должность</label>
+
+            <input
+                type="text"
+                id="position"
+                placeholder="Например: Helper / Moderator"
+                required
+            >
+        </div>
+
+        <!-- Position time -->
+        <div class="field">
+            <label for="experienceTime">
+                Как давно вы занимаете эту должность?
+            </label>
+
+            <input
+                type="text"
+                id="experienceTime"
+                placeholder="Например: 2 месяца"
+                required
+            >
+        </div>
+
+        <!-- Previous experience -->
+        <div class="field">
+            <label for="previousExperience">
+                Был ли у вас опыт работы в администрации до Aress Family?
+            </label>
+
+            <select id="previousExperience" required>
+                <option value="">Выберите вариант</option>
+                <option value="Да">Да</option>
+                <option value="Нет">Нет</option>
+            </select>
+        </div>
+
+        <div class="field hidden" id="previousExperienceDetailsField">
+
+            <label for="previousExperienceDetails">
+                Расскажите о вашем предыдущем опыте
+            </label>
+
+            <textarea
+                id="previousExperienceDetails"
+                placeholder="Где вы работали и чем занимались?"
+            ></textarea>
+
+        </div>
+
+        <!-- Rules -->
+        <div class="field">
+
+            <label for="rulesKnowledge">
+                Как хорошо вы знаете правила Aress Family?
+            </label>
+
+            <select id="rulesKnowledge" required>
+                <option value="">Выберите вариант</option>
+                <option value="Ниже среднего">Ниже среднего</option>
+                <option value="Средне">Средне</option>
+                <option value="Хорошо">Хорошо</option>
+                <option value="Отлично">Отлично</option>
+            </select>
+
+            <div class="warning" id="rulesWarning">
+                ⚠️ Перед прохождением теста рекомендуем внимательно
+                изучить правила сервера.
+            </div>
+
+        </div>
+
+        <!-- Ready -->
+        <div class="field">
+
+            <label for="ready">
+                Готовы ли вы продемонстрировать свои знания
+                и опыт в ходе тестирования?
+            </label>
+
+            <select id="ready" required>
+                <option value="">Выберите вариант</option>
+                <option value="Да">Да</option>
+                <option value="Нет">Нет</option>
+            </select>
+
+        </div>
+
+        <button class="submit" id="submitButton" type="submit">
+            ОТПРАВИТЬ ЗАЯВКУ
+        </button>
+
+        <div class="status success" id="successMessage">
+            ✅ Заявка успешно отправлена.
+            Ожидайте решения администрации.
+        </div>
+
+        <div class="status error" id="errorMessage">
+            ❌ Не удалось отправить заявку.
+            Попробуйте ещё раз.
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+    const WORKER_URL =
+        "https://aress-applications.adriance751.workers.dev";
+
+    const form =
+        document.getElementById("testApplicationForm");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const successMessage =
+        document.getElementById("successMessage");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const previousExperience =
+        document.getElementById("previousExperience");
+
+    const previousExperienceDetailsField =
+        document.getElementById("previousExperienceDetailsField");
+
+    const previousExperienceDetails =
+        document.getElementById("previousExperienceDetails");
+
+    const rulesKnowledge =
+        document.getElementById("rulesKnowledge");
+
+    const rulesWarning =
+        document.getElementById("rulesWarning");
+
+
+    previousExperience.addEventListener("change", function () {
+
+        if (this.value === "Да") {
+
+            previousExperienceDetailsField.classList.remove("hidden");
+            previousExperienceDetails.required = true;
+
+        } else {
+
+            previousExperienceDetailsField.classList.add("hidden");
+            previousExperienceDetails.required = false;
+            previousExperienceDetails.value = "";
+
+        }
+
+    });
+
+
+    rulesKnowledge.addEventListener("change", function () {
+
+        if (this.value === "Ниже среднего") {
+
+            rulesWarning.style.display = "block";
+
+        } else {
+
+            rulesWarning.style.display = "none";
+
+        }
+
+    });
+
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
+
+        submitButton.disabled = true;
+        submitButton.textContent = "ОТПРАВКА...";
+
+
+        const data = {
+
+            type: "test_application",
+
+            discordId:
+                document.getElementById("discordId").value.trim(),
+
+            nickname:
+                document.getElementById("nickname").value.trim(),
+
+            position:
+                document.getElementById("position").value.trim(),
+
+            experienceTime:
+                document.getElementById("experienceTime").value.trim(),
+
+            previousExperience:
+                previousExperience.value,
+
+            previousExperienceDetails:
+                previousExperienceDetails.value.trim(),
+
+            rulesKnowledge:
+                rulesKnowledge.value,
+
+            ready:
+                document.getElementById("ready").value
+
+        };
+
+
+        try {
+
+            const response = await fetch(WORKER_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+
+            });
+
+
+            if (!response.ok) {
+                throw new Error("Ошибка сервера");
+            }
+
+
+            successMessage.style.display = "block";
+
+            form.reset();
+
+            previousExperienceDetailsField.classList.add("hidden");
+            previousExperienceDetails.required = false;
+
+            rulesWarning.style.display = "none";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            errorMessage.style.display = "block";
+
+        } finally {
+
+            submitButton.disabled = false;
+            submitButton.textContent = "ОТПРАВИТЬ ЗАЯВКУ";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
