@@ -15,18 +15,16 @@
         body {
             min-height: 100vh;
             background:
-                radial-gradient(circle at 50% 40%, #242424 0%, #0d0d0d 42%, #050505 100%);
+                radial-gradient(circle at 50% 20%, #242424 0%, #0d0d0d 42%, #050505 100%);
             color: #eeeeee;
             font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
+            padding: 40px 20px;
         }
 
         .box {
             width: 100%;
             max-width: 700px;
+            margin: 0 auto;
             border: 1px solid #292929;
             background: rgba(10, 10, 10, 0.9);
             padding: 50px;
@@ -52,15 +50,73 @@
             margin: 25px 0;
         }
 
-        p {
+        .description {
             color: #888888;
             line-height: 1.7;
             font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .field {
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            color: #dddddd;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            background: #111111;
+            border: 1px solid #292929;
+            color: #eeeeee;
+            padding: 14px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #666666;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .submit {
+            width: 100%;
+            margin-top: 10px;
+            padding: 16px;
+            background: #eeeeee;
+            color: #080808;
+            border: none;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            background: #cccccc;
         }
 
         .back {
             display: inline-block;
-            margin-top: 35px;
+            margin-top: 25px;
             color: #777777;
             text-decoration: none;
             font-size: 11px;
@@ -85,22 +141,86 @@
 
 <body>
 
-    <div class="box">
-        <div class="label">ARESS FAMILY / ADMINISTRATION</div>
+<div class="box">
 
-        <h1>Заявка</h1>
+    <div class="label">ARESS FAMILY / ADMINISTRATION</div>
 
-        <div class="line"></div>
+    <h1>Заявка</h1>
 
-        <p>
-            Здесь будет находиться форма вступления
-            в администрацию Aress Family.
-        </p>
+    <div class="line"></div>
 
-        <a class="back" href="index.html">
-            ← НАЗАД
-        </a>
-    </div>
+    <p class="description">
+        Заполните все поля максимально подробно.
+        После отправки заявка будет передана администрации.
+    </p>
+
+    <form>
+
+        <div class="field">
+            <label>Discord юз</label>
+            <input type="text" name="discord" placeholder="@username" required>
+        </div>
+
+        <div class="field">
+            <label>Возраст</label>
+            <input type="number" name="age" min="1" max="100" placeholder="Введите возраст" required>
+        </div>
+
+        <div class="field">
+            <label>Часовой пояс</label>
+            <input type="text" name="timezone" placeholder="Например: UTC+3" required>
+        </div>
+
+        <div class="field">
+            <label>Расскажите о своём опыте в администрации</label>
+            <textarea name="experience" placeholder="Ваш ответ..." required></textarea>
+        </div>
+        <div class="field">
+            <label>Почему хотите стать администратором?</label>
+            <textarea name="reason" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Сколько времени можете уделять серверу?</label>
+            <textarea name="time" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Уровень грамотности от 1 до 10</label>
+            <input type="number" name="literacy" min="1" max="10" placeholder="От 1 до 10" required>
+        </div>
+
+        <div class="field">
+            <label>Готовы ли вы получать неожиданные поручения от старших админов/владельца</label>
+            <textarea name="tasks" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Как вы понимаете термин "дисциплинированность"? Вы считаете себя дисциплинированным?</label>
+            <textarea name="discipline" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Как вы понимаете термин "ответственность"? Вы считаете себя ответственным?</label>
+            <textarea name="responsibility" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Как вы думаете, какие есть обязанности у администратора и в чем заключается его работа?</label>
+            <textarea name="duties" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <button class="submit" type="submit">
+            ОТПРАВИТЬ ЗАЯВКУ
+        </button>
+
+    </form>
+
+    <a class="back" href="index.html">
+        ← НАЗАД
+    </a>
+
+</div>
 
 </body>
 </html>
