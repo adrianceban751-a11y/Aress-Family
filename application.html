@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aress Family — Заявка на тест</title>
+    <title>Aress Family — Заявка</title>
 
     <style>
         * {
@@ -89,64 +89,8 @@
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 130px;
             resize: vertical;
-        }
-
-        select {
-            cursor: pointer;
-        }
-
-        select option {
-            background: #111111;
-            color: #eeeeee;
-        }
-
-        .hint-button {
-            display: inline-block;
-            margin-top: 8px;
-            background: none;
-            border: none;
-            color: #777777;
-            font-size: 11px;
-            cursor: pointer;
-            padding: 0;
-            text-decoration: underline;
-        }
-
-        .hint-button:hover {
-            color: #eeeeee;
-        }
-
-        .discord-help {
-            display: none;
-            margin-top: 15px;
-            padding: 18px;
-            border: 1px solid #292929;
-            background: #0d0d0d;
-            color: #888888;
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .discord-help strong {
-            color: #dddddd;
-        }
-
-        .discord-help .important {
-            margin-top: 12px;
-            color: #aaaaaa;
-        }
-
-        .rules-warning {
-            display: none;
-            margin-top: 12px;
-            padding: 12px 14px;
-            border: 1px solid #393939;
-            background: #151515;
-            color: #999999;
-            font-size: 12px;
-            line-height: 1.5;
         }
 
         .submit {
@@ -167,20 +111,8 @@
         }
 
         .submit:disabled {
-            background: #555555;
-            color: #999999;
-            cursor: not-allowed;
-        }
-        .status {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #292929;
-            background: #111111;
-            color: #aaaaaa;
-            font-size: 12px;
-            line-height: 1.6;
-            text-align: center;
+            opacity: 0.6;
+            cursor: wait;
         }
 
         .back {
@@ -194,6 +126,26 @@
 
         .back:hover {
             color: #ffffff;
+        }
+
+        .message {
+            display: none;
+            margin-top: 25px;
+            padding: 18px;
+            border: 1px solid #292929;
+            background: #111111;
+            color: #eeeeee;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .message.success {
+            display: block;
+        }
+
+        .message.error {
+            display: block;
+            border-color: #555555;
         }
 
         @media (max-width: 600px) {
@@ -212,264 +164,88 @@
 
 <div class="box">
 
-    <div class="label">ARESS FAMILY / TESTING</div>
+    <div class="label">ARESS FAMILY / ADMINISTRATION</div>
 
-    <h1>Заявка на тест</h1>
+    <h1>Заявка</h1>
 
     <div class="line"></div>
 
     <p class="description">
-        Заполните заявку на прохождение тестирования.
-        После отправки администрация рассмотрит вашу заявку
-        и решит, предоставить ли вам доступ к тесту.
+        Заполните все поля максимально подробно.
+        После отправки заявка будет передана администрации.
     </p>
 
     <form id="applicationForm">
 
-        <!-- 1. Discord ID -->
         <div class="field">
-
-            <label for="discordId">
-                1. Discord ID
-            </label>
-
-            <input
-                type="text"
-                id="discordId"
-                name="discordId"
-                placeholder="Введите ваш Discord ID"
-                inputmode="numeric"
-                required
-            >
-
-            <button
-                type="button"
-                class="hint-button"
-                id="helpButton"
-            >
-                Не знаете, где найти Discord ID?
-            </button>
-
-            <div class="discord-help" id="discordHelp">
-
-                <strong>📱 На телефоне:</strong>
-                <br>
-                1. Откройте Discord.
-                <br>
-                2. Нажмите на свою аватарку → ⚙️ Настройки.
-                <br>
-                3. Откройте раздел <strong>«Расширенные»</strong>.
-                <br>
-                4. Включите <strong>«Режим разработчика»</strong>.
-                <br>
-                5. Вернитесь в свой профиль.
-                <br>
-                6. Нажмите на свой профиль и выберите
-                <strong>«Копировать ID пользователя»</strong>.
-
-                <br><br>
-
-                <strong>💻 На ПК:</strong>
-                <br>
-                1. Откройте Discord.
-                <br>
-                2. Нажмите ⚙️ <strong>Настройки пользователя</strong>.
-                <br>
-                3. Перейдите в <strong>«Расширенные»</strong>.
-                <br>
-                4. Включите <strong>«Режим разработчика»</strong>.
-                <br>
-                5. Нажмите на свою аватарку или имя.
-                <br>
-                6. Выберите <strong>«Копировать ID пользователя»</strong>.
-
-                <div class="important">
-                    💡 Discord ID — это длинный набор цифр.
-                    Не путайте его с никнеймом или отображаемым именем.
-                    <br>
-                    Пример: 123456789012345678
-                </div>
-
-            </div>
-
+            <label>Discord юз</label>
+            <input type="text" name="discord" placeholder="@username" required>
         </div>
-
-        <!-- 2. Никнейм -->
         <div class="field">
-
-            <label for="nickname">
-                2. Текущий никнейм
-            </label>
-
-            <input
-                type="text"
-                id="nickname"
-                name="nickname"
-                placeholder="Ваш текущий никнейм в Discord"
-                required
-            >
-
+            <label>Возраст</label>
+            <input type="number" name="age" min="1" max="100" placeholder="Введите возраст" required>
         </div>
 
-        <!-- 3. Должность -->
         <div class="field">
-
-            <label for="position">
-                3. Текущая должность
-            </label>
-
-            <input
-                type="text"
-                id="position"
-                name="position"
-                placeholder="Например: Хелпер / Модератор"
-                required
-            >
-
+            <label>Часовой пояс</label>
+            <input type="text" name="timezone" placeholder="Например: UTC+3" required>
         </div>
 
-        <!-- 4. Стаж -->
         <div class="field">
-            <label for="experienceTime">
-                4. Как давно вы занимаете эту должность?
-            </label>
-
-            <textarea
-                id="experienceTime"
-                name="experienceTime"
-                placeholder="Например: 2 месяца, с июня 2026 года..."
-                required
-            ></textarea>
-
+            <label>Расскажите о своём опыте в администрации</label>
+            <textarea name="experience" placeholder="Ваш ответ..." required></textarea>
         </div>
 
-        <!-- 5. Предыдущий опыт -->
         <div class="field">
-
-            <label for="previousExperience">
-                5. Был ли у вас опыт работы в администрации до Aress Family?
-            </label>
-
-            <select
-                id="previousExperience"
-                name="previousExperience"
-                required
-            >
-                <option value="" disabled selected>
-                    Выберите вариант
-                </option>
-                <option value="Да">
-                    Да
-                </option>
-                <option value="Нет">
-                    Нет
-                </option>
-            </select>
-
+            <label>Почему хотите стать администратором?</label>
+            <textarea name="reason" placeholder="Ваш ответ..." required></textarea>
         </div>
 
-        <!-- Дополнительное поле опыта -->
-        <div
-            class="field"
-            id="previousExperienceField"
-            style="display: none;"
-        >
-
-            <label for="previousExperienceDetails">
-                Расскажите немного о предыдущем опыте
-            </label>
-
-            <textarea
-                id="previousExperienceDetails"
-                name="previousExperienceDetails"
-                placeholder="Где работали, какую должность занимали, какие обязанности выполняли..."
-            ></textarea>
-
-        </div>
-
-        <!-- 6. Знание правил -->
         <div class="field">
-
-            <label for="rulesKnowledge">
-                6. Как хорошо вы знаете правила Aress Family?
-            </label>
-
-            <select
-                id="rulesKnowledge"
-                name="rulesKnowledge"
-                required
-            >
-                <option value="" disabled selected>
-                    Выберите вариант
-                </option>
-
-                <option value="Ниже среднего">
-                    🔴 Ниже среднего
-                </option>
-
-                <option value="Средне">
-                    🟠 Средне
-                </option>
-
-                <option value="Хорошо">
-                    🟢 Хорошо
-                </option>
-
-                <option value="Отлично">
-                    🔵 Отлично
-                </option>
-            </select>
-
-            <div
-                class="rules-warning"
-                id="rulesWarning"
-            >
-                ⚠️ Перед прохождением теста рекомендуем внимательно
-                изучить правила сервера.
-            </div>
-
+            <label>Сколько времени можете уделять серверу?</label>
+            <textarea name="time" placeholder="Ваш ответ..." required></textarea>
         </div>
 
-        <!-- 7. Готовность -->
         <div class="field">
-
-            <label for="ready">
-                7. Готовы ли вы продемонстрировать свои знания и опыт
-                в ходе тестирования?
-            </label>
-
-            <select
-                id="ready"
-                name="ready"
-                required
-            >
-                <option value="" disabled selected>
-                    Выберите вариант
-                </option>
-
-                <option value="Да">
-                    Да
-                </option>
-
-                <option value="Нет">
-                    Нет
-                </option>
-            </select>
-
+            <label>Уровень грамотности от 1 до 10</label>
+            <input type="number" name="literacy" min="1" max="10" placeholder="От 1 до 10" required>
         </div>
 
-        <button
-            class="submit"
-            type="submit"
-            id="submitButton"
-        >
+        <div class="field">
+            <label>Готовы ли вы получать неожиданные поручения от старших админов/владельца</label>
+            <textarea name="tasks" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Как вы понимаете термин "дисциплинированность"?</label>
+            <textarea name="disciplineUnderstanding" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Вы считаете себя дисциплинированным?</label>
+            <textarea name="disciplineSelf" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Как вы понимаете термин "ответственность"?</label>
+            <textarea name="responsibilityUnderstanding" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Вы считаете себя ответственным?</label>
+            <textarea name="responsibilitySelf" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <div class="field">
+            <label>Как вы думаете, какие есть обязанности у администратора и в чем заключается его работа?</label>
+            <textarea name="duties" placeholder="Ваш ответ..." required></textarea>
+        </div>
+
+        <button class="submit" id="submitButton" type="submit">
             ОТПРАВИТЬ ЗАЯВКУ
         </button>
 
-        <div
-            class="status"
-            id="status"
-        ></div>
+        <div class="message" id="message"></div>
 
     </form>
 
@@ -480,187 +256,56 @@
 </div>
 
 <script>
+const WORKER_URL = "https://aress-applications.adrianceban751.workers.dev";
 
-    // Cloudflare Worker
-    const WORKER_URL =
-        "https://aress-applications.adrianceban751.workers.dev";
+const form = document.getElementById("applicationForm");
+const button = document.getElementById("submitButton");
+const message = document.getElementById("message");
 
-    const form =
-        document.getElementById("applicationForm");
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-    const submitButton =
-        document.getElementById("submitButton");
+    button.disabled = true;
+    button.textContent = "ОТПРАВКА...";
 
-    const status =
-        document.getElementById("status");
+    message.className = "message";
+    message.textContent = "";
 
-    const helpButton =
-        document.getElementById("helpButton");
-    const discordHelp =
-        document.getElementById("discordHelp");
+    const formData = new FormData(form);
 
-    const previousExperience =
-        document.getElementById("previousExperience");
+    const data = Object.fromEntries(formData.entries());
 
-    const previousExperienceField =
-        document.getElementById("previousExperienceField");
+    try {
+        const response = await fetch(WORKER_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
 
-    const previousExperienceDetails =
-        document.getElementById("previousExperienceDetails");
-
-    const rulesKnowledge =
-        document.getElementById("rulesKnowledge");
-
-    const rulesWarning =
-        document.getElementById("rulesWarning");
-
-
-    // Показ инструкции Discord ID
-    helpButton.addEventListener("click", function () {
-
-        if (discordHelp.style.display === "block") {
-
-            discordHelp.style.display = "none";
-            helpButton.textContent =
-                "Не знаете, где найти Discord ID?";
-
-        } else {
-
-            discordHelp.style.display = "block";
-            helpButton.textContent =
-                "Скрыть инструкцию";
-
+        if (!response.ok) {
+            throw new Error("Ошибка отправки");
         }
 
-    });
+        message.className = "message success";
+        message.textContent =
+            "✓ Заявка успешно отправлена. Ожидайте решения администрации.";
 
+        form.reset();
 
-    // Показываем поле предыдущего опыта
-    previousExperience.addEventListener("change", function () {
+    } catch (error) {
 
-        if (this.value === "Да") {
+        message.className = "message error";
+        message.textContent =
+            "Не удалось отправить заявку. Попробуйте ещё раз позже.";
 
-            previousExperienceField.style.display = "block";
-            previousExperienceDetails.required = true;
+    } finally {
 
-        } else {
-
-            previousExperienceField.style.display = "none";
-            previousExperienceDetails.required = false;
-            previousExperienceDetails.value = "";
-
-        }
-
-    });
-
-
-    // Предупреждение при низком знании правил
-    rulesKnowledge.addEventListener("change", function () {
-
-        if (this.value === "Ниже среднего") {
-
-            rulesWarning.style.display = "block";
-
-        } else {
-
-            rulesWarning.style.display = "none";
-
-        }
-
-    });
-
-
-    // Отправка заявки
-    form.addEventListener("submit", async function (event) {
-
-        event.preventDefault();
-
-        submitButton.disabled = true;
-        submitButton.textContent = "ОТПРАВКА...";
-
-        status.style.display = "block";
-        status.textContent =
-            "Заявка отправляется администрации...";
-
-        const data = {
-
-            discordId:
-                document.getElementById("discordId").value.trim(),
-
-            nickname:
-                document.getElementById("nickname").value.trim(),
-
-            position:
-                document.getElementById("position").value.trim(),
-
-            experienceTime:
-                document.getElementById("experienceTime").value.trim(),
-
-            previousExperience:
-                document.getElementById("previousExperience").value,
-
-            previousExperienceDetails:
-                document.getElementById("previousExperienceDetails").value.trim(),
-
-            rulesKnowledge:
-                document.getElementById("rulesKnowledge").value,
-
-            ready:
-                document.getElementById("ready").value
-
-        };
-
-
-        try {
-
-            const response = await fetch(WORKER_URL, {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(data)
-
-            });
-
-
-            if (!response.ok) {
-                throw new Error("Ошибка сервера");
-            }
-
-
-            status.textContent =
-                "Заявка успешно отправлена! Администрация рассмотрит её в ближайшее время.";
-
-            form.reset();
-
-            previousExperienceField.style.display = "none";
-            rulesWarning.style.display = "none";
-
-            previousExperienceDetails.required = false;
-
-            submitButton.textContent =
-                "ЗАЯВКА ОТПРАВЛЕНА";
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            status.textContent =
-                "Не удалось отправить заявку. Попробуйте ещё раз.";
-
-            submitButton.disabled = false;
-
-            submitButton.textContent =
-                "ОТПРАВИТЬ ЗАЯВКУ";
-
-        }
-
-    });
-
+        button.disabled = false;
+        button.textContent = "ОТПРАВИТЬ ЗАЯВКУ";
+    }
+});
 </script>
 
 </body>
