@@ -93,10 +93,6 @@
             resize: vertical;
         }
 
-        select {
-            cursor: pointer;
-        }
-
         .submit {
             width: 100%;
             margin-top: 10px;
@@ -114,6 +110,11 @@
             background: #cccccc;
         }
 
+        .submit:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
         .back {
             display: inline-block;
             margin-top: 25px;
@@ -125,6 +126,26 @@
 
         .back:hover {
             color: #ffffff;
+        }
+
+        .message {
+            display: none;
+            margin-top: 25px;
+            padding: 18px;
+            border: 1px solid #292929;
+            background: #111111;
+            color: #eeeeee;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .message.success {
+            display: block;
+        }
+
+        .message.error {
+            display: block;
+            border-color: #555555;
         }
 
         @media (max-width: 600px) {
@@ -154,13 +175,12 @@
         После отправки заявка будет передана администрации.
     </p>
 
-    <form>
+    <form id="applicationForm">
 
         <div class="field">
             <label>Discord юз</label>
             <input type="text" name="discord" placeholder="@username" required>
         </div>
-
         <div class="field">
             <label>Возраст</label>
             <input type="number" name="age" min="1" max="100" placeholder="Введите возраст" required>
@@ -175,6 +195,7 @@
             <label>Расскажите о своём опыте в администрации</label>
             <textarea name="experience" placeholder="Ваш ответ..." required></textarea>
         </div>
+
         <div class="field">
             <label>Почему хотите стать администратором?</label>
             <textarea name="reason" placeholder="Ваш ответ..." required></textarea>
@@ -197,32 +218,34 @@
 
         <div class="field">
             <label>Как вы понимаете термин "дисциплинированность"?</label>
-            <textarea name="discipline" placeholder="Ваш ответ..." required></textarea>
+            <textarea name="disciplineUnderstanding" placeholder="Ваш ответ..." required></textarea>
         </div>
 
-         <div class="field">
+        <div class="field">
             <label>Вы считаете себя дисциплинированным?</label>
-            <textarea name="discipline" placeholder="Ваш ответ..." required></textarea>
+            <textarea name="disciplineSelf" placeholder="Ваш ответ..." required></textarea>
         </div>
-        
+
         <div class="field">
             <label>Как вы понимаете термин "ответственность"?</label>
-            <textarea name="responsibility" placeholder="Ваш ответ..." required></textarea>
+            <textarea name="responsibilityUnderstanding" placeholder="Ваш ответ..." required></textarea>
         </div>
 
-         <div class="field">
+        <div class="field">
             <label>Вы считаете себя ответственным?</label>
-            <textarea name="responsibility" placeholder="Ваш ответ..." required></textarea>
+            <textarea name="responsibilitySelf" placeholder="Ваш ответ..." required></textarea>
         </div>
-        
+
         <div class="field">
             <label>Как вы думаете, какие есть обязанности у администратора и в чем заключается его работа?</label>
             <textarea name="duties" placeholder="Ваш ответ..." required></textarea>
         </div>
 
-        <button class="submit" type="submit">
+        <button class="submit" id="submitButton" type="submit">
             ОТПРАВИТЬ ЗАЯВКУ
         </button>
+
+        <div class="message" id="message"></div>
 
     </form>
 
@@ -231,6 +254,59 @@
     </a>
 
 </div>
+
+<script>
+const WORKER_URL = "https://aress-applications.adrianceban751.workers.dev";
+
+const form = document.getElementById("applicationForm");
+const button = document.getElementById("submitButton");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    button.disabled = true;
+    button.textContent = "ОТПРАВКА...";
+
+    message.className = "message";
+    message.textContent = "";
+
+    const formData = new FormData(form);
+
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(WORKER_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка отправки");
+        }
+
+        message.className = "message success";
+        message.textContent =
+            "✓ Заявка успешно отправлена. Ожидайте решения администрации.";
+
+        form.reset();
+
+    } catch (error) {
+
+        message.className = "message error";
+        message.textContent =
+            "Не удалось отправить заявку. Попробуйте ещё раз позже.";
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "ОТПРАВИТЬ ЗАЯВКУ";
+    }
+});
+</script>
 
 </body>
 </html>
