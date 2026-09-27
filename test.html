@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aress Family — Тест</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #1b1b1b;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background: #111;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    margin: 15px 0;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: 0;
+    border-radius: 10px;
+    background: white;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #ff5555;
+    margin-top: 15px;
+}
+
+.success {
+    color: #55ff88;
+    margin-top: 15px;
+}
+
+.question {
+    margin-bottom: 25px;
+}
+
+.question h3 {
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.option {
+    display: block;
+    background: #242424;
+    border: 1px solid #383838;
+    border-radius: 10px;
+    padding: 13px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.option:hover {
+    background: #303030;
+}
+
+.option input {
+    margin-right: 10px;
+}
+
+.progress {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.result {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.score {
+    font-size: 64px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #aaa;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- КОД ДОСТУПА -->
+
+    <div id="accessScreen" class="card">
+
+        <h1>02 — Тест</h1>
+
+        <p class="subtitle">
+            Введите персональный код доступа,
+            который был отправлен вам в Discord.
+        </p>
+
+        <input
+            type="text"
+            id="accessCode"
+            placeholder="ARESS-XXXX-XXXXXX"
+            autocomplete="off"
+        >
+
+        <button id="checkCode">
+            ПРОВЕРИТЬ КОД
+        </button>
+
+        <div id="accessMessage"></div>
+
+    </div>
+
+
+    <!-- ТЕСТ -->
+
+    <div id="testScreen" class="hidden">
+
+        <div class="card">
+
+            <h1>Тест Aress Family</h1>
+
+            <p class="subtitle">
+                20 вопросов · максимум 200 баллов
+            </p>
+
+            <p class="progress">
+                Ответьте на все вопросы перед отправкой.
+            </p>
+
+        </div>
+
+        <form id="testForm"></form>
+
+        <div class="card">
+            <button id="submitTest" type="button">
+                ЗАВЕРШИТЬ ТЕСТ
+            </button>
+
+            <div id="testMessage"></div>
+        </div>
+
+    </div>
+
+
+    <!-- РЕЗУЛЬТАТ -->
+
+    <div id="resultScreen" class="card hidden result">
+
+        <h1>Тест завершён</h1>
+
+        <div class="score" id="score">
+            0 / 200
+        </div>
+
+        <p id="resultText"></p>
+
+        <a class="back" href="index.html">
+            ← Вернуться на главную
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const WORKER_URL =
+    "https://aress-applications.adriance751.workers.dev";
+
+
+/*
+==================================================
+ВОПРОСЫ
+==================================================
+*/
+
+const Q = [
+
+[
+"Тебе дали нового Discord-бота и попросили подготовить его к работе. С чего начнёшь?",
+[
+["Проверю назначение, документацию, разрешения, роль, доступ к каналам и протестирую функции.",10],
+["Посмотрю функции бота, настрою роль и разрешения и проверю основные команды.",8],
+["Дам необходимые разрешения и начну тестировать, исправляя проблемы по ходу.",5],
+["Выдам расширенные права, чтобы исключить проблемы с разрешениями.",2]
+]
+],
+
+[
+"Бот уже установлен, но его нужно настроить для модерации. Что проверишь?",
+[
+["Права, иерархию ролей, доступ к каналам, настройки модерации, команды и их ограничения.",10],
+["Права, роль и доступ к каналам, затем протестирую команды.",8],
+["Основные модерационные команды и возможность выдавать наказания.",5],
+["Выдам боту необходимые права для модерации и проверю команды.",2]
+]
+],
+
+[
+"Бот онлайн, но /warn не работает. Как будешь искать причину?",
+[
+["Проверю доступ, разрешения, иерархию ролей, регистрацию команды, настройки и логи.",10],
+["Проверю разрешения и роль, затем настройки команды и логи.",8],
+["Проверю разрешения и попробую перезапустить или перенастроить бота.",5],
+["Проверю онлайн бота и переустановлю его.",2]
+]
+],
+
+[
+"Нужно сделать /clear. Как реализуешь её безопасно?",
+[
+["Дам нужные права, ограничу команду модераторами и каналами и ограничу объём удаления.",10],
+["Дам право управления сообщениями и разрешу команду модераторам.",8],
+["Настрою использование команды только для администрации.",5],
+["Выдам боту Administrator, чтобы команда гарантированно работала.",2]
+]
+],
+
+[
+"Как лучше предоставить боту доступ к нужным функциям?",
+[
+["Отдельная роль с минимальными нужными разрешениями и ограничением каналов.",10],
+["Отдельная роль с необходимыми разрешениями и проверкой лишнего доступа.",8],
+["Большинство разрешений, которые потенциально могут понадобиться.",5],
+["Administrator, чтобы не возникало проблем с правами.",2]
+]
+],
+
+[
+"В чём основное различие /ban и /kick?",
+[
+["Kick удаляет с сервера без бана, а ban блокирует возможность повторного входа согласно настройкам бана.",10],
+["Обе команды удаляют пользователя, но ban дополнительно запрещает повторное присоединение.",8],
+["Kick обычно мягче, а ban используют при более серьёзных нарушениях.",5],
+["Kick временно удаляет, а ban удаляет аккаунт пользователя с Discord.",2]
+]
+],
+
+[
+"Пользователь нарушил правило, но бан не требуется. Что выберешь?",
+[
+["Timeout на подходящий срок с учётом тяжести нарушения и истории.",10],
+["Timeout, если правила предусматривают его для такого нарушения.",8],
+["Использую timeout как предупреждение и посмотрю на повторное нарушение.",5],
+["Выдам timeout практически в любой спорной ситуации.",2]
+]
+],
+
+[
+"Почему не стоит выдавать Administrator всем модераторам?",
+[
+["Administrator даёт широкие полномочия, поэтому лучше выдавать только необходимые права.",10],
+["Чрезмерные права увеличивают последствия ошибки или компрометации аккаунта.",8],
+["Отдельные разрешения позволяют точнее контролировать возможности модератора.",5],
+["Administrator нужен только владельцу сервера и больше никому.",2]
+]
+],
+
+[
+"Что желательно сохранять после /warn?",
+[
+["Пользователя, причину, дату, выдавшего предупреждение и историю предупреждений.",10],
+["Пользователя, причину, дату и сотрудника, выдавшего предупреждение.",8],
+["Пользователя и причину, чтобы видеть историю нарушений.",5],
+["Сообщение пользователю; хранить историю необязательно.",2]
+]
+],
+
+[
+"Два участника конфликтуют и обвиняют друг друга. Что сделаешь?",
+[
+["Изучу контекст и доказательства, выслушаю участников и применю правила отдельно.",10],
+["Проверю переписку и установлю, кто нарушил правила.",8],
+["Сначала прекращу конфликт, затем разберусь в подробностях.",5],
+["Выдам обоим одинаковое наказание для нейтралитета.",2]
+]
+],
+
+[
+"Твой друг нарушил правило. Как поступишь?",
+[
+["Применю правила так же, а при конфликте интересов передам рассмотрение другому сотруднику.",10],
+["Не сделаю исключение из-за дружбы и применю предусмотренное наказание.",8],
+["Сначала предупрежу друга и дам возможность прекратить нарушение.",5],
+["Попрошу другого модератора решить вопрос.",2]
+]
+],
+
+[
+"Другой модератор выдал, по твоему мнению, ошибочное наказание. Что сделаешь?",
+[
+["Проверю доказательства, обсужу ситуацию и при необходимости передам старшей администрации.",10],
+["Проверю соответствие правилам и затем обсужу ситуацию с модератором.",8],
+["Если уверен в ошибке, отменю наказание и позже сообщу модератору.",5],
+["Не буду вмешиваться, потому что наказание выдал другой сотрудник.",2]
+]
+],
+
+[
+"Пользователь массово спамит и упоминает участников. Что логичнее сделать?",
+[
+["Остановлю нарушение, ограничу пользователя, удалю спам, проверю масштаб и сохраню логи.",10],
+["Остановлю спам, удалю сообщения и применю соответствующее наказание.",8],
+["Выдам timeout и удалю основные сообщения.",5],
+["Сразу забаню пользователя.",2]
+]
+],
+
+[
+"Пользователь утверждает, что его забанили несправедливо. Как разбираться?",
+[
+["Проверю причину, логи и доказательства, сравню с правилами и при необходимости передам ответственному.",10],
+["Проверю причину и доказательства и определю соответствие наказания.",8],
+["Попрошу объяснение и свяжусь с модератором, выдавшим бан.",5],
+["Сниму бан временно, пока разбираюсь.",2]
+]
+],
+
+[
+"Ты случайно выдал наказание не тому человеку. Что сделаешь?",
+[
+["Исправлю наказание, зафиксирую ошибку и сообщу ответственным.",10],
+["Отменю наказание и объясню пользователю произошедшее.",8],
+["Исправлю наказание, но не буду поднимать вопрос выше.",5],
+["Оставлю наказание до конца срока.",2]
+]
+],
+
+[
+"Бот просит Administrator, хотя достаточно отдельных разрешений. Что сделаешь?",
+[
+["Проверю документацию и выдам только необходимые разрешения.",10],
+["Попробую отдельные разрешения и проверю необходимость Administrator.",8],
+["Если бот известный, временно дам Administrator для диагностики.",5],
+["Выдам Administrator по инструкции, не проверяя необходимость.",2]
+]
+],
+
+[
+"Тебя попросили передать токен бота. Что сделаешь?",
+[
+["Не передам токен, сохраню его как секрет; при утечке заменю токен.",10],
+["Не отправлю токен и проверю безопасный способ настройки.",8],
+["Передам токен только доверенному администратору.",5],
+["Отправлю токен в закрытый административный канал.",2]
+]
+],
+
+[
+"Несколько ролей имеют слишком много разрешений. Что будешь делать?",
+[
+["Проведу аудит ролей, определю нужные права и уберу лишние, проверив результат.",10],
+["Проверю роли и уберу явно ненужные разрешения.",8],
+["Уменьшу права наиболее привилегированных ролей и проверю функции.",5],
+["Уберу Administrator у всех ролей и буду возвращать права.",2]
+]
+],
+
+[
+"Сломалась автоматическая выдача ролей. Бот онлайн. Что проверишь?",
+[
+["Логи, автороли, разрешения, иерархию, настройки системы и затем протестирую выдачу.",10],
+["Автороли, права и позицию роли бота, затем протестирую выдачу.",8],
+["Права бота и его роль, после чего перенастрою систему.",5],
+["Удалю и заново добавлю бота.",2]
+]
+],
+
+[
+"Тебе дали новый Discord-сервер. Что проверишь в первую очередь?",
+[
+["Роли и разрешения, каналы и доступы, безопасность, модерацию, ботов и логи.",10],
+["Роли, каналы и разрешения, затем ботов, модерацию и правила.",8],
+["Каналы и роли, после чего добавлю ботов и настрою модерацию.",5],
+["Сначала оформлю сервер и установлю ботов, потом займусь правами.",2]
+]
+]
+
+];
+
+
+/*
+==================================================
+ПЕРЕМЕННЫЕ
+==================================================
+*/
+
+let accessCode = "";
+let discordId = "";
+
+
+/*
+==================================================
+ПРОВЕРКА КОДА
+==================================================
+*/
+
+const codeInput =
+    document.getElementById("accessCode");
+
+const checkButton =
+    document.getElementById("checkCode");
+
+const accessMessage =
+    document.getElementById("accessMessage");
+
+checkButton.addEventListener(
+    "click",
+    checkAccess
+);
+
+
+codeInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+            checkAccess();
+        }
+
+    }
+);
+
+
+async function checkAccess() {
+
+    const code =
+        codeInput.value
+            .trim()
+            .toUpperCase();
+
+    accessMessage.className = "";
+    accessMessage.textContent = "";
+
+    if (!code) {
+
+        accessMessage.className =
+            "error";
+
+        accessMessage.textContent =
+            "Введите код доступа.";
+
+        return;
+    }
+
+    checkButton.disabled = true;
+    checkButton.textContent =
+        "ПРОВЕРКА...";
+
+    try {
+
+        const response =
+            await fetch(
+                WORKER_URL +
+                "?action=test_access&code=" +
+                encodeURIComponent(code)
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok ||
+            !data.success) {
+
+            accessMessage.className =
+                "error";
+
+            accessMessage.textContent =
+                data.error ||
+                "Код недействителен.";
+
+            checkButton.disabled =
+                false;
+
+            checkButton.textContent =
+                "ПРОВЕРИТЬ КОД";
+
+            return;
+        }
+
+        accessCode =
+            code;
+
+        discordId =
+            data.discordId || "";
+
+        accessMessage.className =
+            "success";
+
+        accessMessage.textContent =
+            "Код подтверждён. Открываем тест...";
+
+        setTimeout(
+            function() {
+
+                document
+                    .getElementById(
+                        "accessScreen"
+                    )
+                    .classList.add(
+                        "hidden"
+                    );
+
+                document
+                    .getElementById(
+                        "testScreen"
+                    )
+                    .classList.remove(
+                        "hidden"
+                    );
+
+                renderQuestions();
+
+            },
+            500
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        accessMessage.className =
+            "error";
+
+        accessMessage.textContent =
+            "Не удалось связаться с сервером.";
+
+        checkButton.disabled =
+            false;
+
+        checkButton.textContent =
+            "ПРОВЕРИТЬ КОД";
+    }
+}
+
+
+/*
+==================================================
+ОТОБРАЖЕНИЕ ВОПРОСОВ
+==================================================
+*/
+
+function renderQuestions() {
+
+    const form =
+        document.getElementById(
+            "testForm"
+        );
+
+    form.innerHTML = "";
+
+    Q.forEach(
+        function(question, index) {
+
+            const questionCard =
+                document.createElement(
+                    "div"
+                );
+
+            questionCard.className =
+                "card question";
+
+            const title =
+                document.createElement(
+                    "h3"
+                );
+
+            title.textContent =
+                (index + 1) +
+                ". " +
+                question[0];
+
+            questionCard.appendChild(
+                title
+            );
+
+            question[1].forEach(
+                function(option, optionIndex) {
+
+                    const label =
+                        document.createElement(
+                            "label"
+                        );
+
+                    label.className =
+                        "option";
+
+                    label.innerHTML =
+                        `
+                        <input
+                            type="radio"
+                            name="q${index}"
+                            value="${optionIndex}"
+                        >
+                        ${String.fromCharCode(65 + optionIndex)}.
+                        ${escapeHTML(option[0])}
+                        `;
+
+                    questionCard.appendChild(
+                        label
+                    );
+                }
+            );
+
+            form.appendChild(
+                questionCard
+            );
+        }
+    );
+}
+
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+}
+
+
+/*
+==================================================
+ОТПРАВКА ТЕСТА
+==================================================
+*/
+
+document
+    .getElementById(
+        "submitTest"
+    )
+    .addEventListener(
+        "click",
+        submitTest
+    );
+
+
+async function submitTest() {
+
+    const answers = [];
+
+    for (
+        let i = 0;
+        i < Q.length;
+        i++
+    ) {
+
+        const selected =
+            document.querySelector(
+                `input[name="q${i}"]:checked`
+            );
+
+        if (!selected) {
+
+            const message =
+                document.getElementById(
+                    "testMessage"
+                );
+
+            message.className =
+                "error";
+
+            message.textContent =
+                `Вы не ответили на вопрос №${i + 1}.`;
+
+            document
+                .querySelector(
+                    `input[name="q${i}"]`
+                )
+                .closest(
+                    ".question"
+                )
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            return;
+        }
+
+        answers.push(
+            Number(
+                selected.value
+            )
+        );
+    }
+
+
+    const button =
+        document.getElementById(
+            "submitTest"
+        );
+
+    const message =
+        document.getElementById(
+            "testMessage"
+        );
+
+    button.disabled = true;
+
+    button.textContent =
+        "ОБРАБОТКА...";
+
+    message.className = "";
+
+    message.textContent = "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                WORKER_URL,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            type:
+                                "test_result",
+
+                            accessCode:
+                                accessCode,
+
+                            answers:
+                                answers
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            message.className =
+                "error";
+
+            message.textContent =
+                data.error ||
+                "Не удалось отправить результат.";
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "ЗАВЕРШИТЬ ТЕСТ";
+
+            return;
+        }
+
+
+        showResult(
+            data.score
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.className =
+            "error";
+
+        message.textContent =
+            "Не удалось связаться с сервером.";
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "ЗАВЕРШИТЬ ТЕСТ";
+    }
+}
+
+
+/*
+==================================================
+РЕЗУЛЬТАТ
+==================================================
+*/
+
+function showResult(score) {
+
+    document
+        .getElementById(
+            "testScreen"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "resultScreen"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "score"
+        )
+        .textContent =
+        `${score} / 200`;
+
+
+    let text = "";
+
+
+    if (score >= 180) {
+
+        text =
+            "Отличный результат. Ты показал очень хорошее знание Discord и основ администрирования.";
+
+    } else if (score >= 150) {
+
+        text =
+            "Хороший результат. Основные принципы администрирования тебе знакомы.";
+
+    } else if (score >= 120) {
+
+        text =
+            "Результат получен. Есть хорошие знания, но некоторые темы стоит повторить.";
+
+    } else {
+
+        text =
+            "Результат сохранён. Рекомендуется повторить правила и основные принципы модерации.";
+    }
+
+
+    document
+        .getElementById(
+            "resultText"
+        )
+        .textContent =
+        text;
+}
+
+</script>
+
+</body>
+</html>
