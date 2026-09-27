@@ -177,6 +177,34 @@ button:disabled {
     </div>
 
 
+    <!-- DISCORD ЮЗЕР -->
+
+    <div id="userScreen" class="card hidden">
+
+        <h1>Ваш Discord</h1>
+
+        <p class="subtitle">
+            Введите ваш Discord юзер.
+            Он будет указан в результате теста.
+        </p>
+
+        <input
+            type="text"
+            id="discordUser"
+            placeholder="@ВашНик"
+            autocomplete="off"
+            maxlength="50"
+        >
+
+        <button id="continueTest">
+            ПРОДОЛЖИТЬ
+        </button>
+
+        <div id="userMessage"></div>
+
+    </div>
+
+
     <!-- ТЕСТ -->
 
     <div id="testScreen" class="hidden">
@@ -198,11 +226,13 @@ button:disabled {
         <form id="testForm"></form>
 
         <div class="card">
+
             <button id="submitTest" type="button">
                 ЗАВЕРШИТЬ ТЕСТ
             </button>
 
             <div id="testMessage"></div>
+
         </div>
 
     </div>
@@ -454,6 +484,7 @@ const Q = [
 
 let accessCode = "";
 let discordId = "";
+let discordUser = "";
 
 
 /*
@@ -470,6 +501,7 @@ const checkButton =
 
 const accessMessage =
     document.getElementById("accessMessage");
+
 
 checkButton.addEventListener(
     "click",
@@ -511,6 +543,7 @@ async function checkAccess() {
     }
 
     checkButton.disabled = true;
+
     checkButton.textContent =
         "ПРОВЕРКА...";
 
@@ -526,8 +559,10 @@ async function checkAccess() {
         const data =
             await response.json();
 
-        if (!response.ok ||
-            !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             accessMessage.className =
                 "error";
@@ -545,42 +580,40 @@ async function checkAccess() {
             return;
         }
 
+
         accessCode =
             code;
 
         discordId =
             data.discordId || "";
 
+
         accessMessage.className =
             "success";
 
         accessMessage.textContent =
-            "Код подтверждён. Открываем тест...";
+            "Код подтверждён. Введите Discord юзер...";
+
 
         setTimeout(
             function() {
 
                 document
-                    .getElementById(
-                        "accessScreen"
-                    )
-                    .classList.add(
-                        "hidden"
-                    );
+                    .getElementById("accessScreen")
+                    .classList.add("hidden");
 
                 document
-                    .getElementById(
-                        "testScreen"
-                    )
-                    .classList.remove(
-                        "hidden"
-                    );
+                    .getElementById("userScreen")
+                    .classList.remove("hidden");
 
-                renderQuestions();
+                document
+                    .getElementById("discordUser")
+                    .focus();
 
             },
             500
         );
+
 
     } catch (error) {
 
@@ -603,6 +636,94 @@ async function checkAccess() {
 
 /*
 ==================================================
+DISCORD ЮЗЕР
+==================================================
+*/
+
+const discordUserInput =
+    document.getElementById("discordUser");
+
+const continueTestButton =
+    document.getElementById("continueTest");
+
+const userMessage =
+    document.getElementById("userMessage");
+
+
+continueTestButton.addEventListener(
+    "click",
+    startTest
+);
+
+
+discordUserInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+            startTest();
+        }
+
+    }
+);
+
+
+function startTest() {
+
+    const user =
+        discordUserInput.value.trim();
+
+    userMessage.className = "";
+    userMessage.textContent = "";
+
+
+    if (!user) {
+
+        userMessage.className =
+            "error";
+
+        userMessage.textContent =
+            "Введите ваш Discord юзер.";
+
+        discordUserInput.focus();
+
+        return;
+    }
+
+
+    if (user.length < 2) {
+
+        userMessage.className =
+            "error";
+
+        userMessage.textContent =
+            "Введите корректный Discord юзер.";
+
+        discordUserInput.focus();
+
+        return;
+    }
+
+
+    discordUser =
+        user;
+
+
+    document
+        .getElementById("userScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("testScreen")
+        .classList.remove("hidden");
+
+
+    renderQuestions();
+}
+
+
+/*
+==================================================
 ОТОБРАЖЕНИЕ ВОПРОСОВ
 ==================================================
 */
@@ -610,47 +731,44 @@ async function checkAccess() {
 function renderQuestions() {
 
     const form =
-        document.getElementById(
-            "testForm"
-        );
+        document.getElementById("testForm");
 
     form.innerHTML = "";
+
 
     Q.forEach(
         function(question, index) {
 
             const questionCard =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             questionCard.className =
                 "card question";
 
+
             const title =
-                document.createElement(
-                    "h3"
-                );
+                document.createElement("h3");
 
             title.textContent =
                 (index + 1) +
                 ". " +
                 question[0];
 
+
             questionCard.appendChild(
                 title
             );
+
 
             question[1].forEach(
                 function(option, optionIndex) {
 
                     const label =
-                        document.createElement(
-                            "label"
-                        );
+                        document.createElement("label");
 
                     label.className =
                         "option";
+
 
                     label.innerHTML =
                         `
@@ -663,15 +781,19 @@ function renderQuestions() {
                         ${escapeHTML(option[0])}
                         `;
 
+
                     questionCard.appendChild(
                         label
                     );
+
                 }
             );
+
 
             form.appendChild(
                 questionCard
             );
+
         }
     );
 }
@@ -680,9 +802,7 @@ function renderQuestions() {
 function escapeHTML(text) {
 
     const div =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     div.textContent =
         text;
@@ -698,9 +818,7 @@ function escapeHTML(text) {
 */
 
 document
-    .getElementById(
-        "submitTest"
-    )
+    .getElementById("submitTest")
     .addEventListener(
         "click",
         submitTest
@@ -710,6 +828,7 @@ document
 async function submitTest() {
 
     const answers = [];
+
 
     for (
         let i = 0;
@@ -721,6 +840,7 @@ async function submitTest() {
             document.querySelector(
                 `input[name="q${i}"]:checked`
             );
+
 
         if (!selected) {
 
@@ -735,13 +855,12 @@ async function submitTest() {
             message.textContent =
                 `Вы не ответили на вопрос №${i + 1}.`;
 
+
             document
                 .querySelector(
                     `input[name="q${i}"]`
                 )
-                .closest(
-                    ".question"
-                )
+                .closest(".question")
                 .scrollIntoView({
                     behavior: "smooth",
                     block: "center"
@@ -750,10 +869,9 @@ async function submitTest() {
             return;
         }
 
+
         answers.push(
-            Number(
-                selected.value
-            )
+            Number(selected.value)
         );
     }
 
@@ -768,13 +886,14 @@ async function submitTest() {
             "testMessage"
         );
 
-    button.disabled = true;
+
+    button.disabled =
+        true;
 
     button.textContent =
         "ОБРАБОТКА...";
 
     message.className = "";
-
     message.textContent = "";
 
 
@@ -784,8 +903,7 @@ async function submitTest() {
             await fetch(
                 WORKER_URL,
                 {
-                    method:
-                        "POST",
+                    method: "POST",
 
                     headers: {
                         "Content-Type":
@@ -799,6 +917,12 @@ async function submitTest() {
 
                             accessCode:
                                 accessCode,
+
+                            discordId:
+                                discordId,
+
+                            discordUser:
+                                discordUser,
 
                             answers:
                                 answers
@@ -822,6 +946,7 @@ async function submitTest() {
             message.textContent =
                 data.error ||
                 "Не удалось отправить результат.";
+
 
             button.disabled =
                 false;
@@ -848,6 +973,7 @@ async function submitTest() {
         message.textContent =
             "Не удалось связаться с сервером.";
 
+
         button.disabled =
             false;
 
@@ -866,25 +992,17 @@ async function submitTest() {
 function showResult(score) {
 
     document
-        .getElementById(
-            "testScreen"
-        )
-        .classList.add(
-            "hidden"
-        );
+        .getElementById("testScreen")
+        .classList.add("hidden");
+
 
     document
-        .getElementById(
-            "resultScreen"
-        )
-        .classList.remove(
-            "hidden"
-        );
+        .getElementById("resultScreen")
+        .classList.remove("hidden");
+
 
     document
-        .getElementById(
-            "score"
-        )
+        .getElementById("score")
         .textContent =
         `${score} / 200`;
 
@@ -915,9 +1033,7 @@ function showResult(score) {
 
 
     document
-        .getElementById(
-            "resultText"
-        )
+        .getElementById("resultText")
         .textContent =
         text;
 }
