@@ -16,45 +16,45 @@
         body {
             min-height: 100vh;
             background: #111;
-            color: #fff;
+            color: white;
             font-family: Arial, sans-serif;
-            padding: 30px 15px;
+            padding: 40px 20px;
         }
 
         .container {
-            width: 100%;
-            max-width: 700px;
+            max-width: 760px;
             margin: 0 auto;
         }
 
         .back {
             display: inline-block;
-            margin-bottom: 25px;
             color: #aaa;
             text-decoration: none;
-            font-size: 14px;
+            margin-bottom: 25px;
+            transition: .2s;
         }
 
         .back:hover {
-            color: #fff;
+            color: white;
         }
 
         .title {
+            font-size: 42px;
+            font-weight: 800;
             margin-bottom: 10px;
-            font-size: 34px;
         }
 
         .subtitle {
             color: #999;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             line-height: 1.5;
         }
 
         .form {
             background: #191919;
-            border: 1px solid #292929;
-            border-radius: 16px;
-            padding: 25px;
+            border: 1px solid #2b2b2b;
+            border-radius: 18px;
+            padding: 30px;
         }
 
         .field {
@@ -63,26 +63,19 @@
 
         label {
             display: block;
+            font-weight: 700;
             margin-bottom: 9px;
-            font-weight: bold;
-        }
-
-        .hint {
-            color: #888;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-top: 7px;
         }
 
         input,
         textarea,
         select {
             width: 100%;
-            border: 1px solid #333;
+            padding: 14px 15px;
+            border: 1px solid #383838;
             border-radius: 10px;
             background: #101010;
-            color: #fff;
-            padding: 13px;
+            color: white;
             font-size: 15px;
             outline: none;
         }
@@ -94,7 +87,7 @@
         }
 
         textarea {
-            min-height: 110px;
+            min-height: 120px;
             resize: vertical;
         }
 
@@ -102,24 +95,35 @@
             cursor: pointer;
         }
 
-        details {
-            margin-top: 10px;
+        option {
             background: #111;
-            border: 1px solid #2c2c2c;
-            border-radius: 10px;
-            padding: 12px;
+            color: white;
         }
 
-        summary {
+        .help {
+            margin-top: 10px;
+        }
+
+        .help summary {
             cursor: pointer;
-            color: #ccc;
+            color: #aaa;
+            font-size: 14px;
         }
 
-        details p {
+        .help-content {
             margin-top: 12px;
-            color: #999;
-            font-size: 13px;
+            padding: 15px;
+            background: #101010;
+            border: 1px solid #2d2d2d;
+            border-radius: 10px;
+            color: #aaa;
+            font-size: 14px;
             line-height: 1.6;
+        }
+
+        .example {
+            margin-top: 10px;
+            color: #ddd;
         }
 
         .warning {
@@ -127,56 +131,76 @@
             margin-top: 10px;
             padding: 12px;
             border-radius: 10px;
-            background: #302b18;
-            border: 1px solid #5a512d;
-            color: #e6d78c;
-            font-size: 13px;
+            background: #2b2413;
+            border: 1px solid #5a491c;
+            color: #e6cf85;
+            font-size: 14px;
             line-height: 1.5;
-        }
-
-        .submit {
-            width: 100%;
-            border: 0;
-            border-radius: 10px;
-            padding: 15px;
-            background: #fff;
-            color: #111;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .submit:hover {
-            opacity: 0.9;
-        }
-
-        .submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .status {
-            display: none;
-            margin-top: 18px;
-            padding: 14px;
-            border-radius: 10px;
-            line-height: 1.5;
-        }
-
-        .success {
-            background: #18301f;
-            border: 1px solid #315c3c;
-            color: #9ee0ad;
-        }
-
-        .error {
-            background: #301919;
-            border: 1px solid #5c3030;
-            color: #ffaaaa;
         }
 
         .hidden {
             display: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: black;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover {
+            background: #ddd;
+        }
+
+        button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .success {
+            background: #142719;
+            border: 1px solid #285936;
+            color: #9de5ac;
+        }
+
+        .error {
+            background: #291515;
+            border: 1px solid #5c2828;
+            color: #ff9d9d;
+        }
+
+        .required {
+            color: #aaa;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 25px 14px;
+            }
+
+            .title {
+                font-size: 32px;
+            }
+
+            .form {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -185,20 +209,23 @@
 
 <div class="container">
 
-    <a class="back" href="index.html">← Вернуться на главную</a>
+    <a href="index.html" class="back">← Назад</a>
 
-    <h1 class="title">01 — Заявка</h1>
+    <h1 class="title">Заявка</h1>
 
     <p class="subtitle">
-        Заполните заявку на получение доступа к тестированию
-        знаний и опыта в администрации Aress Family.
+        Заполните заявку для получения доступа к тестированию
+        знаний и опыта администрации Aress Family.
     </p>
 
-    <form class="form" id="testApplicationForm">
+    <form class="form" id="applicationForm">
 
         <!-- Discord ID -->
         <div class="field">
-            <label for="discordId">Discord ID</label>
+
+            <label for="discordId">
+                Discord ID <span class="required">*</span>
+            </label>
 
             <input
                 type="text"
@@ -209,120 +236,186 @@
                 required
             >
 
-            <div class="hint">
-                Укажите именно Discord ID, а не никнейм.
-            </div>
+            <details class="help">
 
-            <details>
-                <summary>Не знаете, где найти Discord ID?</summary>
+                <summary>
+                    Не знаете, где найти Discord ID?
+                </summary>
 
-                <p>
+                <div class="help-content">
+
                     <strong>На телефоне:</strong><br>
-                    Discord → ваш аватар → Настройки → Расширенные
-                    → включите «Режим разработчика».
-                    После этого откройте свой профиль и выберите
+                    Discord → ваш аватар → Настройки →
+                    Расширенные → включите
+                    «Режим разработчика» →
+                    откройте свой профиль →
                     «Копировать ID пользователя».
-                </p>
 
-                <p>
-                    <strong>На ПК:</strong><br>
-                    Discord → Настройки пользователя → Расширенные
-                    → включите «Режим разработчика».
-                    Затем нажмите на свой аватар или имя и выберите
+                    <br><br>
+
+                    <strong>На компьютере:</strong><br>
+                    Discord → Настройки пользователя →
+                    Расширенные → включите
+                    «Режим разработчика» →
+                    нажмите ПКМ по своему имени или аватару →
                     «Копировать ID пользователя».
-                </p>
 
-                <p>
-                    Discord ID — это длинная последовательность цифр.
-                </p>
+                    <div class="example">
+                        Discord ID выглядит примерно так:
+                        <strong>123456789012345678</strong>
+                    </div>
+
+                </div>
+
             </details>
+
         </div>
+
 
         <!-- Nickname -->
         <div class="field">
-            <label for="nickname">Текущий никнейм</label>
+
+            <label for="nickname">
+                Текущий никнейм <span class="required">*</span>
+            </label>
 
             <input
                 type="text"
                 id="nickname"
                 placeholder="Ваш текущий никнейм"
+                maxlength="100"
                 required
             >
+
         </div>
+
 
         <!-- Position -->
         <div class="field">
-            <label for="position">Текущая должность</label>
+
+            <label for="position">
+                Текущая должность <span class="required">*</span>
+            </label>
 
             <input
                 type="text"
                 id="position"
-                placeholder="Например: Helper / Moderator"
+                placeholder="Например: Модератор"
+                maxlength="100"
                 required
             >
+
         </div>
 
-        <!-- Position time -->
+
+        <!-- Experience time -->
         <div class="field">
+
             <label for="experienceTime">
                 Как давно вы занимаете эту должность?
+                <span class="required">*</span>
             </label>
 
             <input
                 type="text"
                 id="experienceTime"
                 placeholder="Например: 2 месяца"
+                maxlength="100"
                 required
             >
+
         </div>
+
 
         <!-- Previous experience -->
         <div class="field">
+
             <label for="previousExperience">
-                Был ли у вас опыт работы в администрации до Aress Family?
+                Был ли у вас опыт работы в администрации
+                до Aress Family?
+                <span class="required">*</span>
             </label>
 
             <select id="previousExperience" required>
-                <option value="">Выберите вариант</option>
-                <option value="Да">Да</option>
-                <option value="Нет">Нет</option>
+
+                <option value="" selected disabled>
+                    Выберите вариант
+                </option>
+
+                <option value="Да">
+                    Да
+                </option>
+
+                <option value="Нет">
+                    Нет
+                </option>
+
             </select>
+
         </div>
 
-        <div class="field hidden" id="previousExperienceDetailsField">
+
+        <!-- Previous experience details -->
+        <div
+            class="field hidden"
+            id="previousExperienceDetailsField"
+        >
 
             <label for="previousExperienceDetails">
-                Расскажите о вашем предыдущем опыте
+                Расскажите о предыдущем опыте
             </label>
 
             <textarea
                 id="previousExperienceDetails"
-                placeholder="Где вы работали и чем занимались?"
+                placeholder="Где вы работали, какая была должность и т.д."
+                maxlength="2000"
             ></textarea>
 
         </div>
 
-        <!-- Rules -->
+
+        <!-- Rules knowledge -->
         <div class="field">
 
             <label for="rulesKnowledge">
                 Как хорошо вы знаете правила Aress Family?
+                <span class="required">*</span>
             </label>
 
             <select id="rulesKnowledge" required>
-                <option value="">Выберите вариант</option>
-                <option value="Ниже среднего">Ниже среднего</option>
-                <option value="Средне">Средне</option>
-                <option value="Хорошо">Хорошо</option>
-                <option value="Отлично">Отлично</option>
+
+                <option value="" selected disabled>
+                    Выберите вариант
+                </option>
+
+                <option value="Ниже среднего">
+                    Ниже среднего
+                </option>
+
+                <option value="Средне">
+                    Средне
+                </option>
+
+                <option value="Хорошо">
+                    Хорошо
+                </option>
+
+                <option value="Отлично">
+                    Отлично
+                </option>
+
             </select>
 
-            <div class="warning" id="rulesWarning">
-                ⚠️ Перед прохождением теста рекомендуем внимательно
-                изучить правила сервера.
+            <div
+                class="warning"
+                id="rulesWarning"
+            >
+                ⚠️ Перед прохождением теста рекомендуем
+                внимательно изучить правила сервера.
             </div>
 
         </div>
+
 
         <!-- Ready -->
         <div class="field">
@@ -330,186 +423,391 @@
             <label for="ready">
                 Готовы ли вы продемонстрировать свои знания
                 и опыт в ходе тестирования?
+                <span class="required">*</span>
             </label>
 
             <select id="ready" required>
-                <option value="">Выберите вариант</option>
-                <option value="Да">Да</option>
-                <option value="Нет">Нет</option>
+
+                <option value="" selected disabled>
+                    Выберите вариант
+                </option>
+
+                <option value="Да">
+                    Да
+                </option>
+
+                <option value="Нет">
+                    Нет
+                </option>
+
             </select>
 
         </div>
 
-        <button class="submit" id="submitButton" type="submit">
+
+        <button
+            type="submit"
+            id="submitButton"
+        >
             ОТПРАВИТЬ ЗАЯВКУ
         </button>
 
-        <div class="status success" id="successMessage">
-            ✅ Заявка успешно отправлена.
+
+        <div
+            class="message success"
+            id="successMessage"
+        >
+            ✅ Заявка успешно отправлена!
             Ожидайте решения администрации.
         </div>
 
-        <div class="status error" id="errorMessage">
+
+        <div
+            class="message error"
+            id="errorMessage"
+        >
             ❌ Не удалось отправить заявку.
-            Попробуйте ещё раз.
         </div>
 
     </form>
 
 </div>
 
+
 <script>
 
-   const WORKER_URL =
+const WORKER_URL =
     "https://aress-applications.adrianceban751.workers.dev";
 
-    const form =
-        document.getElementById("testApplicationForm");
 
-    const submitButton =
-        document.getElementById("submitButton");
+const form =
+    document.getElementById(
+        "applicationForm"
+    );
 
-    const successMessage =
-        document.getElementById("successMessage");
+const submitButton =
+    document.getElementById(
+        "submitButton"
+    );
 
-    const errorMessage =
-        document.getElementById("errorMessage");
+const successMessage =
+    document.getElementById(
+        "successMessage"
+    );
 
-    const previousExperience =
-        document.getElementById("previousExperience");
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
 
-    const previousExperienceDetailsField =
-        document.getElementById("previousExperienceDetailsField");
+const previousExperience =
+    document.getElementById(
+        "previousExperience"
+    );
 
-    const previousExperienceDetails =
-        document.getElementById("previousExperienceDetails");
+const previousExperienceDetailsField =
+    document.getElementById(
+        "previousExperienceDetailsField"
+    );
 
-    const rulesKnowledge =
-        document.getElementById("rulesKnowledge");
+const previousExperienceDetails =
+    document.getElementById(
+        "previousExperienceDetails"
+    );
 
-    const rulesWarning =
-        document.getElementById("rulesWarning");
+const rulesKnowledge =
+    document.getElementById(
+        "rulesKnowledge"
+    );
+
+const rulesWarning =
+    document.getElementById(
+        "rulesWarning"
+    );
 
 
-    previousExperience.addEventListener("change", function () {
+/*
+ * Показываем/скрываем поле
+ * предыдущего опыта
+ */
+
+previousExperience.addEventListener(
+    "change",
+    function () {
 
         if (this.value === "Да") {
 
-            previousExperienceDetailsField.classList.remove("hidden");
-            previousExperienceDetails.required = true;
+            previousExperienceDetailsField
+                .classList
+                .remove("hidden");
+
+            previousExperienceDetails.required =
+                true;
 
         } else {
 
-            previousExperienceDetailsField.classList.add("hidden");
-            previousExperienceDetails.required = false;
-            previousExperienceDetails.value = "";
+            previousExperienceDetailsField
+                .classList
+                .add("hidden");
 
+            previousExperienceDetails.required =
+                false;
+
+            previousExperienceDetails.value =
+                "";
         }
 
-    });
+    }
+);
 
 
-    rulesKnowledge.addEventListener("change", function () {
+/*
+ * Предупреждение о правилах
+ */
 
-        if (this.value === "Ниже среднего") {
+rulesKnowledge.addEventListener(
+    "change",
+    function () {
 
-            rulesWarning.style.display = "block";
+        if (
+            this.value ===
+            "Ниже среднего"
+        ) {
+
+            rulesWarning.style.display =
+                "block";
 
         } else {
 
-            rulesWarning.style.display = "none";
+            rulesWarning.style.display =
+                "none";
 
         }
 
-    });
+    }
+);
 
 
-    form.addEventListener("submit", async function (event) {
+/*
+ * Проверка Discord ID
+ */
+
+document
+    .getElementById("discordId")
+    .addEventListener(
+        "input",
+        function () {
+
+            this.value =
+                this.value.replace(
+                    /\D/g,
+                    ""
+                );
+
+        }
+    );
+
+
+/*
+ * Отправка формы
+ */
+
+form.addEventListener(
+    "submit",
+    async function (event) {
 
         event.preventDefault();
 
-        successMessage.style.display = "none";
-        errorMessage.style.display = "none";
+        successMessage.style.display =
+            "none";
 
-        submitButton.disabled = true;
-        submitButton.textContent = "ОТПРАВКА...";
+        errorMessage.style.display =
+            "none";
+
+        submitButton.disabled =
+            true;
+
+        submitButton.textContent =
+            "ОТПРАВКА...";
 
 
         const data = {
 
-            type: "test_application",
+            type:
+                "test_application",
 
             discordId:
-                document.getElementById("discordId").value.trim(),
+                document
+                    .getElementById(
+                        "discordId"
+                    )
+                    .value
+                    .trim(),
 
             nickname:
-                document.getElementById("nickname").value.trim(),
+                document
+                    .getElementById(
+                        "nickname"
+                    )
+                    .value
+                    .trim(),
 
             position:
-                document.getElementById("position").value.trim(),
+                document
+                    .getElementById(
+                        "position"
+                    )
+                    .value
+                    .trim(),
 
             experienceTime:
-                document.getElementById("experienceTime").value.trim(),
+                document
+                    .getElementById(
+                        "experienceTime"
+                    )
+                    .value
+                    .trim(),
 
             previousExperience:
                 previousExperience.value,
 
             previousExperienceDetails:
-                previousExperienceDetails.value.trim(),
+                previousExperienceDetails
+                    .value
+                    .trim(),
 
             rulesKnowledge:
                 rulesKnowledge.value,
 
             ready:
-                document.getElementById("ready").value
+                document
+                    .getElementById(
+                        "ready"
+                    )
+                    .value
 
         };
 
 
         try {
 
-            const response = await fetch(WORKER_URL, {
+            const response =
+                await fetch(
+                    WORKER_URL,
+                    {
+                        method: "POST",
 
-                method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                        body:
+                            JSON.stringify(
+                                data
+                            )
+                    }
+                );
 
-                body: JSON.stringify(data)
 
-            });
+            /*
+             * Получаем ответ Worker
+             */
+
+            const result =
+                await response
+                    .json()
+                    .catch(
+                        () => null
+                    );
 
 
-            if (!response.ok) {
-                throw new Error("Ошибка сервера");
+            console.log(
+                "Ответ Worker:",
+                result
+            );
+
+
+            /*
+             * Проверяем ошибку
+             */
+
+            if (
+                !response.ok ||
+                result?.success === false
+            ) {
+
+                const errorText =
+                    result?.discordError ||
+                    result?.error ||
+                    `Ошибка сервера: ${response.status}`;
+
+                throw new Error(
+                    errorText
+                );
+
             }
 
 
-            successMessage.style.display = "block";
+            /*
+             * Успешная отправка
+             */
+
+            successMessage.textContent =
+                "✅ Заявка успешно отправлена! Ожидайте решения администрации.";
+
+            successMessage.style.display =
+                "block";
+
+            errorMessage.style.display =
+                "none";
+
 
             form.reset();
 
-            previousExperienceDetailsField.classList.add("hidden");
-            previousExperienceDetails.required = false;
 
-            rulesWarning.style.display = "none";
+            previousExperienceDetailsField
+                .classList
+                .add("hidden");
+
+            previousExperienceDetails.required =
+                false;
+
+            rulesWarning.style.display =
+                "none";
 
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Ошибка отправки заявки:",
+                error
+            );
 
-            errorMessage.style.display = "block";
+
+            errorMessage.textContent =
+                "❌ " +
+                (
+                    error.message ||
+                    "Не удалось отправить заявку"
+                );
+
+
+            errorMessage.style.display =
+                "block";
 
         } finally {
 
-            submitButton.disabled = false;
-            submitButton.textContent = "ОТПРАВИТЬ ЗАЯВКУ";
+            submitButton.disabled =
+                false;
+
+            submitButton.textContent =
+                "ОТПРАВИТЬ ЗАЯВКУ";
 
         }
 
-    });
+    }
+);
 
 </script>
 
