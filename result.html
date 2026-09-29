@@ -340,38 +340,47 @@ async function loadLeaderboard() {
 
         container.innerHTML = "";
 
-        data.leaderboard.forEach(player => {
+        data.leaderboard
+            .filter(player =>
+                ![
+                    "mirvl.",
+                    "пвапва",
+                    "Не указан",
+                    "hfgh"
+                ].includes(player.discordUser)
+            )
+            .forEach(player => {
 
-            let place = player.place;
+                let place = player.place;
 
-            if (place === 1) {
-                place = "🥇";
-            } else if (place === 2) {
-                place = "🥈";
-            } else if (place === 3) {
-                place = "🥉";
-            }
+                if (place === 1) {
+                    place = "🥇";
+                } else if (place === 2) {
+                    place = "🥈";
+                } else if (place === 3) {
+                    place = "🥉";
+                }
 
-            const row = document.createElement("div");
+                const row = document.createElement("div");
 
-            row.className = "player";
+                row.className = "player";
 
-            row.innerHTML = `
-                <div class="place">${place}</div>
+                row.innerHTML = `
+                    <div class="place">${place}</div>
 
-                <div class="username">
-                    ${escapeHtml(player.discordUser)}
-                </div>
+                    <div class="username">
+                        ${escapeHtml(player.discordUser)}
+                    </div>
 
-                <div class="score">
-                    ${player.score}
-                    <span>БАЛЛОВ</span>
-                </div>
-            `;
+                    <div class="score">
+                        ${player.score}
+                        <span>БАЛЛОВ</span>
+                    </div>
+                `;
 
-            container.appendChild(row);
+                container.appendChild(row);
 
-        });
+            });
 
     } catch (error) {
 
