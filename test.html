@@ -925,7 +925,33 @@ async function submitTest() {
                                 discordUser,
 
                             answers:
-                                answers
+                                answers,
+
+                            questions:
+                                Q.map(function(question, index) {
+
+                                    const selected =
+                                        document.querySelector(
+                                            `input[name="q${index}"]:checked`
+                                        );
+
+                                    const answerIndex =
+                                        Number(selected.value);
+
+                                    return {
+                                        question:
+                                            question[0],
+
+                                        answer:
+                                            question[1][answerIndex][0],
+
+                                        answerLetter:
+                                            String.fromCharCode(
+                                                65 + answerIndex
+                                            )
+                                    };
+
+                                })
                         })
                 }
             );
