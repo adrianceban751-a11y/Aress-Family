@@ -340,47 +340,73 @@ async function loadLeaderboard() {
 
         container.innerHTML = "";
 
-        data.leaderboard
-            .filter(player =>
-                ![
-                    "mirvl.",
-                    "пвапва",
-                    "Не указан",
-                    "hfgh"
-                ].includes(player.discordUser)
-            )
-            .forEach(player => {
+        const hiddenPlayers = [
+            "пвапва",
+            "не указан",
+            "hfgh"
+        ];
 
-                let place = player.place;
+        const players = data.leaderboard.map(player => {
 
-                if (place === 1) {
-                    place = "🥇";
-                } else if (place === 2) {
-                    place = "🥈";
-                } else if (place === 3) {
-                    place = "🥉";
-                }
+            const name = (player.discordUser || "")
+                .trim()
+                .toLowerCase();
 
-                const row = document.createElement("div");
+            if (
+                name.startsWith("mirv") ||
+                hiddenPlayers.includes(name)
+            ) {
+                return {
+                    ...player,
+                    score: 0
+                };
+            }
 
-                row.className = "player";
+            return {
+                ...player,
+                score: Number(player.score) || 0
+            };
 
-                row.innerHTML = `
-                    <div class="place">${place}</div>
+        });
 
-                    <div class="username">
-                        ${escapeHtml(player.discordUser)}
-                    </div>
+        players.sort((a, b) => {
+            return Number(b.score) - Number(a.score);
+        });
 
-                    <div class="score">
-                        ${player.score}
-                        <span>БАЛЛОВ</span>
-                    </div>
-                `;
+        players.forEach((player, index) => {
 
-                container.appendChild(row);
+            const placeNumber = index + 1;
 
-            });
+            let place = placeNumber;
+
+            if (placeNumber === 1) {
+                place = "🥇";
+            } else if (placeNumber === 2) {
+                place = "🥈";
+            } else if (placeNumber === 3) {
+                place = "🥉";
+            }
+
+            const row = document.createElement("div");
+
+            row.className = "player";
+
+            row.innerHTML = `
+                <div class="place">${place}</div>
+
+                <div class="username">
+                    ${escapeHtml(player.discordUser)}
+                </div>
+
+                <div class="score">
+                    ${player.score}
+                    <span>БАЛЛОВ</span>
+                </div>
+            `;
+
+            container.appendChild(row);
+
+        });
 
     } catch (error) {
 
