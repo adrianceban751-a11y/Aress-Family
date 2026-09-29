@@ -549,18 +549,66 @@ async function checkAccess() {
 
     try {
 
-        const response =
-            await fetch(
-                WORKER_URL +
-                "?action=test_access&code=" +
-                encodeURIComponent(code)
-            );
+        let response = null;
+        let data = null;
 
-        const data =
-            await response.json();
+        const maxAttempts = 4;
+
+        for (
+            let attempt = 1;
+            attempt <= maxAttempts;
+            attempt++
+        ) {
+
+            response =
+                await fetch(
+                    WORKER_URL +
+                    "?action=test_access&code=" +
+                    encodeURIComponent(code) +
+                    "&t=" +
+                    Date.now()
+                );
+
+            data =
+                await response.json();
+
+
+            if (
+                response.ok &&
+                data.success
+            ) {
+                break;
+            }
+
+
+            if (
+                data &&
+                data.error ===
+                "Доступ к тесту не найден." &&
+                attempt < maxAttempts
+            ) {
+
+                await new Promise(
+                    function(resolve) {
+                        setTimeout(
+                            resolve,
+                            400
+                        );
+                    }
+                );
+
+                continue;
+            }
+
+
+            break;
+        }
+
 
         if (
+            !response ||
             !response.ok ||
+            !data ||
             !data.success
         ) {
 
@@ -568,7 +616,7 @@ async function checkAccess() {
                 "error";
 
             accessMessage.textContent =
-                data.error ||
+                data?.error ||
                 "Код недействителен.";
 
             checkButton.disabled =
@@ -928,30 +976,37 @@ async function submitTest() {
                                 answers,
 
                             questions:
-                                Q.map(function(question, index) {
+                                Q.map(
+                                    function(question, index) {
 
-                                    const selected =
-                                        document.querySelector(
-                                            `input[name="q${index}"]:checked`
-                                        );
+                                        const selected =
+                                            document.querySelector(
+                                                `input[name="q${index}"]:checked`
+                                            );
 
-                                    const answerIndex =
-                                        Number(selected.value);
+                                        const answerIndex =
+                                            Number(
+                                                selected.value
+                                            );
 
-                                    return {
-                                        question:
-                                            question[0],
+                                        return {
 
-                                        answer:
-                                            question[1][answerIndex][0],
+                                            question:
+                                                question[0],
 
-                                        answerLetter:
-                                            String.fromCharCode(
-                                                65 + answerIndex
-                                            )
-                                    };
+                                            answer:
+                                                question[1][answerIndex][0],
 
-                                })
+                                            answerLetter:
+                                                String.fromCharCode(
+                                                    65 +
+                                                    answerIndex
+                                                )
+
+                                        };
+
+                                    }
+                                )
                         })
                 }
             );
